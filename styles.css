@@ -17,11 +17,21 @@
   }
 
   to {
-    transform: scale(0.75);
+    transform: scale(0.9);
     background-color: rgba(128, 128, 128, 0.75);
   }
 }
 
+@keyframes Highlight {
+  50% {
+    opacity: 0;
+  }
+}
+
+.highlight {
+  animation: Highlight 1s ease infinite;
+  background-color: yellow;
+}
 
 * {
   margin: 0;
