@@ -1,4 +1,5 @@
 $('document').ready(function () {
+    // Prefer to use own highlighting class per each character than pushing this over fixed pixel widths
     $('#yellow-block').attr('hidden', true);
     // Hides the uppercase keyboard on the loading of the document
     $('#keyboard-upper-container').attr('hidden', true);
@@ -11,19 +12,34 @@ $('document').ready(function () {
         'nee ene ate ite tent tiet ent ine ene ete ene ate'
     ];
 
+
+    // function checkForCorrectCharacter(sentences, currentKeypress) {
+    //     sentences.forEach(function (sentence) {
+    //         $('#sentence').append('<p id=\'char' + id + '\' style=\'display: inline;\'>' + char + '</p>');
+    //         for (let i = 0; i < sentence.length; i++) {
+    //             $('#char' + id).addClass('highlight');
+    //             if (currentKeypress == sentence.charAt(i)) {
+    //                 console.log(currentKeypress);
+    //                 break;
+    //             }
+    //         }
+    //     });
+    // };
+
     function iterateThroughSentences() {
         let sentenceChars = sentences[0].split('');
         let id = 0;
-        sentenceChars.forEach(function(char) {
-            $('#sentence').append('<p id=\'char'+ id + '\' style=\'display: inline;\'>'+char+'</p>');
-            //$('#char'+id).addClass('highlight');
-            $('#char0').addClass('highlight');
-            id++;
+        for (let i=0; i < sentenceChars.length; i++) {}
+        sentenceChars.forEach(function (char) {
+            $('#char'+id).addClass('highlight');
+            $('#sentence').append('<p id=\'char' + id + '\' style=\'display: inline;\'>' + char + '</p>');
+            $('body').keypress(function (event) {
+                if (event.key === char) {
+                    //console.log('e.key: '+event.key +'\nchar: '+char);
+                    id++;
+                }
+            });
         });
-    };
-
-    function correctCharacter(char) {
-
     };
 
     iterateThroughSentences();
@@ -47,11 +63,12 @@ $('document').ready(function () {
         }
     });
 
-    // Highlights the key and adds animation if applicable, waits 0.15s, and then removes the class 
     $('body').keypress(function (event) {
+        // Highlights the key and adds animation if applicable, waits 0.15s, and then removes the class 
         let keyASCII = event.which;
         let $selector = $("[id='" + keyASCII + "']");
         $($selector).addClass('keypress');
         setTimeout(function () { $($selector).removeClass('keypress'); }, 150);
+        // checkForCorrectCharacter(sentences, event.key);
     });
 });
