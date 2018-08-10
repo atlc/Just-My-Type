@@ -4,15 +4,21 @@ $('document').ready(function () {
     // Hides the uppercase keyboard on the loading of the document
     $('#keyboard-upper-container').attr('hidden', true);
 
-    // I honestly thing these are the Irish lyrics (in an English accent) from 'Come On Eileen'
+    // I honestly think these are the Irish lyrics (in an English accent) from 'Come On Eileen'
     let sentences = [
+        'ten ate neite',
+        'ate nee enet',
+        'ite ate inet ent eate'
+        /*
         'ten ate neite ate nee enet ite ate inet ent eate',
         'Too ato too nOt enot one totA not anot tOO aNot',
         'oat itain oat tain nate eate tea anne inant nean',
         'itant eate anot eat nato inate eat anot tain eat',
         'nee ene ate ite tent tiet ent ine ene ete ene ate'
+        */
     ];
 
+    // Global initialization variable declarations
     let sentenceArrayIndex = 0;
     let sentenceCharAtIndex = 0;
     let activeSentence = sentences[sentenceArrayIndex];
@@ -25,7 +31,17 @@ $('document').ready(function () {
     $('#sentence').text(activeSentence);
     $('#target-letter').text(activeLetter).addClass('highlight');
 
+    /* ********************************************************************************
+        TODO:
+        Add timer function and postgame analytics. 
+        Use bootstrap for some fancy displaying for the analytics and hide top elements
+        Create recording to embed in README; pin repo to github.com/atlc.
+            -> Set up GitHub Pages page for project
+            -> (maybe add another for Bootstrap resume & other Covalence projects)
+    ********************************************************************************  */
+
     function checkForCorrectCharacter(activeSentence, pressedKey) {
+        if (sentenceArrayIndex < sentences.length) {
             if (sentenceCharAtIndex < activeSentence.length) {
                 if (activeLetter == pressedKey) {
                     $('#feedback').append('<span class=\'glyphicon glyphicon-ok\'></span>');
@@ -42,10 +58,9 @@ $('document').ready(function () {
                 incorrectPerSentenceArray.push(incorrectLetters);
                 nextSentence();
             }
-         //   alert('Game over!');
-            // TODO:
-            // Add timer function and postgame analytics.
-            // Use bootstrap for some fancy displaying for the analytics and hide top elements
+        } else {
+            alert('done');
+        }
     };
 
     function nextSentence() {
