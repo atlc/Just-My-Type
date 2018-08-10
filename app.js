@@ -4,6 +4,7 @@ $('document').ready(function () {
     // Hides the uppercase keyboard on the loading of the document
     $('#keyboard-upper-container').attr('hidden', true);
 
+    // I honestly thing these are the Irish lyrics (in an English accent) from 'Come On Eileen'
     let sentences = [
         'ten ate neite ate nee enet ite ate inet ent eate',
         'Too ato too nOt enot one totA not anot tOO aNot',
@@ -16,26 +17,48 @@ $('document').ready(function () {
     let sentenceCharAtIndex = 0;
     let activeSentence = sentences[sentenceArrayIndex];
     let activeLetter = activeSentence.charAt(sentenceCharAtIndex);
+    let correctLetters = 0;
+    let incorrectLetters = 0;
+    let correctPerSentenceArray = [];
+    let incorrectPerSentenceArray = [];
 
     $('#sentence').text(activeSentence);
     $('#target-letter').text(activeLetter).addClass('highlight');
 
     function checkForCorrectCharacter(activeSentence, pressedKey) {
-         let correctLetters = 0;
-         let incorrectLetters = 0;
-
-        if (activeLetter == pressedKey) {
-            $('#feedback').append('<span class=\'glyphicon glyphicon-ok\'></span>');
-            sentenceCharAtIndex++;
-            activeLetter = activeSentence.charAt(sentenceCharAtIndex);
-            $('#target-letter').text(activeLetter);
-            correctLetters++;
-        } else {
-            $('#feedback').append('<span class=\'glyphicon glyphicon-remove\'></span>');
-            incorrectLetters++;
-        }
+            if (sentenceCharAtIndex < activeSentence.length) {
+                if (activeLetter == pressedKey) {
+                    $('#feedback').append('<span class=\'glyphicon glyphicon-ok\'></span>');
+                    sentenceCharAtIndex++;
+                    activeLetter = activeSentence.charAt(sentenceCharAtIndex);
+                    $('#target-letter').text(activeLetter);
+                    correctLetters++;
+                } else {
+                    $('#feedback').append('<span class=\'glyphicon glyphicon-remove\'></span>');
+                    incorrectLetters++;
+                }
+            } else {
+                correctPerSentenceArray.push(correctLetters);
+                incorrectPerSentenceArray.push(incorrectLetters);
+                nextSentence();
+            }
+         //   alert('Game over!');
+            // TODO:
+            // Add timer function and postgame analytics.
+            // Use bootstrap for some fancy displaying for the analytics and hide top elements
     };
 
+    function nextSentence() {
+        correctLetters = 0;
+        incorrectLetters = 0;
+        sentenceCharAtIndex = 0;
+        sentenceArrayIndex++;
+        activeSentence = sentences[sentenceArrayIndex];
+        activeLetter = activeSentence.charAt(sentenceCharAtIndex);
+        $('#sentence').text(activeSentence);
+        $('#target-letter').text(activeLetter);
+        $('#feedback').empty();
+    }
 
     // When the shift key is held down, swap to the upper keyboard
     $('body').keydown(function (event) {
