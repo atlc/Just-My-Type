@@ -6,16 +6,11 @@ $('document').ready(function () {
 
     // I honestly think these are the Irish lyrics (in an English accent) from 'Come On Eileen'
     let sentences = [
-        'ten ate neite',
-        'ate nee enet',
-        'ite ate inet ent eate'
-        /*
         'ten ate neite ate nee enet ite ate inet ent eate',
         'Too ato too nOt enot one totA not anot tOO aNot',
         'oat itain oat tain nate eate tea anne inant nean',
         'itant eate anot eat nato inate eat anot tain eat',
         'nee ene ate ite tent tiet ent ine ene ete ene ate'
-        */
     ];
 
     // Global initialization variable declarations
@@ -25,8 +20,12 @@ $('document').ready(function () {
     let activeLetter = activeSentence.charAt(sentenceCharAtIndex);
     let correctLetters = 0;
     let incorrectLetters = 0;
+    let totalIncorrect = 0;
     let correctPerSentenceArray = [];
     let incorrectPerSentenceArray = [];
+    let startTime = new Date().getTime();
+    let endTime = 0;
+    const wordsInArray = 54; // Hardcoded count
 
     $('#sentence').text(activeSentence);
     $('#target-letter').text(activeLetter).addClass('highlight');
@@ -52,6 +51,7 @@ $('document').ready(function () {
                 } else {
                     $('#feedback').append('<span class=\'glyphicon glyphicon-remove\'></span>');
                     incorrectLetters++;
+                    totalIncorrect++;
                 }
             } else {
                 correctPerSentenceArray.push(correctLetters);
@@ -59,10 +59,21 @@ $('document').ready(function () {
                 nextSentence();
             }
         } else {
-            alert('done');
+            endgameAnalytics();
+            if(confirm('Would you like to play again?')) {
+                location.reload();
+            }
         }
     };
 
+    function endgameAnalytics() {
+        endTime = new Date().getTime();
+        let timeLapsed = ((endTime - startTime) / (1000 * 60)); // Gets the time per game in decimal minutes
+        let WPM = (wordsInArray / timeLapsed) - (2 * totalIncorrect);
+        alert(`Your words per minute score is: ${WPM}. \nYour total of incorrect characters is: ${totalIncorrect}`);
+    };
+
+    // As long as there is a new sentence, this resets all values and then increments the sentence index
     function nextSentence() {
         correctLetters = 0;
         incorrectLetters = 0;
@@ -73,7 +84,7 @@ $('document').ready(function () {
         $('#sentence').text(activeSentence);
         $('#target-letter').text(activeLetter);
         $('#feedback').empty();
-    }
+    };
 
     // When the shift key is held down, swap to the upper keyboard
     $('body').keydown(function (event) {
