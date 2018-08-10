@@ -12,37 +12,29 @@ $('document').ready(function () {
         'nee ene ate ite tent tiet ent ine ene ete ene ate'
     ];
 
+    let sentenceArrayIndex = 0;
+    let sentenceCharAtIndex = 0;
+    let activeSentence = sentences[sentenceArrayIndex];
+    let activeLetter = activeSentence.charAt(sentenceCharAtIndex);
 
-    // function checkForCorrectCharacter(sentences, currentKeypress) {
-    //     sentences.forEach(function (sentence) {
-    //         $('#sentence').append('<p id=\'char' + id + '\' style=\'display: inline;\'>' + char + '</p>');
-    //         for (let i = 0; i < sentence.length; i++) {
-    //             $('#char' + id).addClass('highlight');
-    //             if (currentKeypress == sentence.charAt(i)) {
-    //                 console.log(currentKeypress);
-    //                 break;
-    //             }
-    //         }
-    //     });
-    // };
+    $('#sentence').text(activeSentence);
+    $('#target-letter').text(activeLetter).addClass('highlight');
 
-    function iterateThroughSentences() {
-        let sentenceChars = sentences[0].split('');
-        let id = 0;
-        for (let i=0; i < sentenceChars.length; i++) {}
-        sentenceChars.forEach(function (char) {
-            $('#char'+id).addClass('highlight');
-            $('#sentence').append('<p id=\'char' + id + '\' style=\'display: inline;\'>' + char + '</p>');
-            $('body').keypress(function (event) {
-                if (event.key === char) {
-                    //console.log('e.key: '+event.key +'\nchar: '+char);
-                    id++;
-                }
-            });
-        });
+    function checkForCorrectCharacter(activeSentence, pressedKey) {
+         let correctLetters = 0;
+         let incorrectLetters = 0;
+
+        if (activeLetter == pressedKey) {
+            $('#feedback').append('<span class=\'glyphicon glyphicon-ok\'></span>');
+            sentenceCharAtIndex++;
+            activeLetter = activeSentence.charAt(sentenceCharAtIndex);
+            $('#target-letter').text(activeLetter);
+            correctLetters++;
+        } else {
+            $('#feedback').append('<span class=\'glyphicon glyphicon-remove\'></span>');
+            incorrectLetters++;
+        }
     };
-
-    iterateThroughSentences();
 
 
     // When the shift key is held down, swap to the upper keyboard
@@ -69,6 +61,6 @@ $('document').ready(function () {
         let $selector = $("[id='" + keyASCII + "']");
         $($selector).addClass('keypress');
         setTimeout(function () { $($selector).removeClass('keypress'); }, 150);
-        // checkForCorrectCharacter(sentences, event.key);
+        checkForCorrectCharacter(activeSentence, event.key);
     });
 });

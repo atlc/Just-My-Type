@@ -2,6 +2,13 @@
   background-color: rgba(128, 128, 128, 0.5);
 }
 
+.glyphicon-ok {
+  color: rgb(0, 255, 0);
+}
+
+.glyphicon-remove {
+  color: rgb(255, 0, 0);
+}
 
 .keypress {
   animation: KeyPress;
