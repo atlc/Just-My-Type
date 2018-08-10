@@ -1,6 +1,9 @@
 # Just My Type
 Covalence
 
+## Playthrough demo:
+![](./playthrough.gif)
+
 ## Info
 * You are going to build a typing game
 * This lab uses an older version of the Bootstrap UI Framework. It is already imported for you.
